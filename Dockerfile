@@ -1,7 +1,7 @@
 # Copyright (C) Intel Corporation, 2022
 # SPDX-License-Identifier: MIT
 
-ARG baseimage=python:3.11-slim
+ARG baseimage=python:3.11-slim-bookworm
 FROM ${baseimage} as build
 ARG pyinstaller_version=6.1.0
 
