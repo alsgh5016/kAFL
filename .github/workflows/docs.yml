@@ -33,7 +33,7 @@ jobs:
         working-directory: docs/build/html
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@049a95c516cd5723d8cfde79dc7a79fcdcbd6c97 # v4.0.0
+        uses: JamesIves/github-pages-deploy-action@9d877eea73427180ae43cf98e8914934fe157a1a # v4.5.6
         with:
           # note: folder doesn't care about the job's working directory
           folder: docs/build/html
