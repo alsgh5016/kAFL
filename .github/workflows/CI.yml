@@ -22,7 +22,7 @@ env:
 
 jobs:
   ansible-lint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,7 +47,7 @@ jobs:
           ./venv/bin/ansible-lint -x 'meta-no-info' -x galaxy -x 'yaml[octal-values]' -x no-changed-when -x risky-file-permissions --exclude venv
 
   check-mode:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -85,7 +85,7 @@ jobs:
           --extra-vars "@parameters.json"
 
   remote:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     services:
       ssh:
