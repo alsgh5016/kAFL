@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Setup ansible venv
         working-directory: deploy
@@ -53,7 +53,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Run deployment in check mode (dry-run)
         run: make deploy -- --check
@@ -68,7 +68,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
         if: matrix.os == 'ubuntu-20.04'
 
       # shallow clone for CI speed
@@ -101,7 +101,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       # shallow clone for CI speed
       - name: Setup ansible extra vars in JSON file
