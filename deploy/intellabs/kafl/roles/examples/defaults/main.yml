@@ -1,4 +1,4 @@
-examples_url: https://github.com/IntelLabs/kafl.targets
+examples_url: https://github.com/alsgh5016/kafl.targets
 examples_root: "{{ kafl_install_root }}/examples"
 examples_revision: "v0.3"
 
