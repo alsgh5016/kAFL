@@ -48,3 +48,7 @@
 - name: Install kernel if needed
   ansible.builtin.import_tasks: install_kernel.yml
   when: "'update_grub' in ansible_run_tags or 'hardware_check' in ansible_skip_tags or support_test.rc != 0"
+
+- name: Build and load KVM-Nyx modules from source
+  ansible.builtin.import_tasks: build_kvm_modules.yml
+  when: kvm_nyx_build_from_source | default(false)

@@ -2,3 +2,9 @@
 kernel_grep_string: '6.8.0-nyx+'
 kernel_deb_urls:
   - https://github.com/IntelLabs/kafl.linux/releases/download/kvm-nyx-6.8/linux-image-6.8.0-nyx+_6.8.0-g0509b850d2bd-1_amd64.deb
+
+# KVM-Nyx module build from source
+kvm_nyx_url: 'https://github.com/alsgh5016/kafl.linux'
+kvm_nyx_revision: 'kvm-nyx-6.8'
+kvm_nyx_root: "{{ kafl_install_root }}/kafl.linux"
+kvm_nyx_build_from_source: true

@@ -1,0 +1,38 @@
+- name: Install KVM-Nyx module build dependencies
+  ansible.builtin.package:
+    name:
+      - build-essential
+      - flex
+      - bison
+      - libelf-dev
+      - libssl-dev
+      - bc
+      - dwarves
+  become: true
+
+- name: Clone KVM-Nyx source
+  ansible.builtin.git:
+    repo: "{{ kvm_nyx_url }}"
+    dest: "{{ kvm_nyx_root }}"
+    version: "{{ kvm_nyx_revision | default('kvm-nyx-6.8') }}"
+    depth: "{{ git_clone_depth | default(omit) }}"
+    force: "{{ force_clone }}"
+  tags:
+    - clone
+
+- name: Build KVM-Nyx modules (standalone)
+  ansible.builtin.command: bash compile_kvm_nyx_standalone.sh
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Load KVM-Nyx modules
+  ansible.builtin.command: bash load_kvm_nyx.sh
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  become: true
+  when: not ansible_check_mode
+  tags:
+    - build
