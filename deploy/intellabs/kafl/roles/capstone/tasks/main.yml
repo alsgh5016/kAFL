@@ -17,3 +17,20 @@
     force: "{{ force_clone }}"
   tags:
     - clone
+
+- name: Build capstone
+  ansible.builtin.shell: make -j$(nproc)
+  args:
+    chdir: "{{ capstone_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Install capstone
+  ansible.builtin.shell: make install
+  args:
+    chdir: "{{ capstone_root }}"
+  become: true
+  when: not ansible_check_mode
+  tags:
+    - build
