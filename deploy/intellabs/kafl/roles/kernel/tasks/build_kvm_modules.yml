@@ -21,6 +21,30 @@
   tags:
     - clone
 
+- name: Copy running kernel config
+  ansible.builtin.shell: cp /boot/config-$(uname -r) .config
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Update config with KVM-Nyx defaults
+  ansible.builtin.shell: yes '' | make olddefconfig
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Enable KVM-Nyx in config
+  ansible.builtin.shell: scripts/config --module KVM --module KVM_INTEL --enable KVM_NYX
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
 - name: Build full KVM-Nyx kernel
   ansible.builtin.shell: make -j$(nproc)
   args:
