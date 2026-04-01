@@ -1,4 +1,4 @@
-- name: Install KVM-Nyx module build dependencies
+- name: Install KVM-Nyx kernel build dependencies
   ansible.builtin.package:
     name:
       - build-essential
@@ -8,6 +8,7 @@
       - libssl-dev
       - bc
       - dwarves
+      - zstd
   become: true
 
 - name: Clone KVM-Nyx source
@@ -20,19 +21,43 @@
   tags:
     - clone
 
-- name: Build KVM-Nyx modules (standalone)
-  ansible.builtin.command: bash compile_kvm_nyx_standalone.sh
+- name: Build full KVM-Nyx kernel
+  ansible.builtin.shell: make -j$(nproc)
   args:
     chdir: "{{ kvm_nyx_root }}"
   when: not ansible_check_mode
   tags:
     - build
 
-- name: Load KVM-Nyx modules
-  ansible.builtin.command: bash load_kvm_nyx.sh
+- name: Install KVM-Nyx kernel modules
+  ansible.builtin.command: make modules_install
   args:
     chdir: "{{ kvm_nyx_root }}"
   become: true
   when: not ansible_check_mode
   tags:
     - build
+
+- name: Install KVM-Nyx kernel
+  ansible.builtin.command: make install
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  become: true
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Update GRUB to boot KVM-Nyx kernel
+  ansible.builtin.command: update-grub
+  become: true
+  when: not ansible_check_mode
+  tags:
+    - build
+
+- name: Reboot into KVM-Nyx kernel
+  ansible.builtin.reboot:
+  become: true
+  when: not ansible_check_mode and ansible_connection != 'local'
+  tags:
+    - build
+    - reboot_kernel
