@@ -45,6 +45,16 @@
   tags:
     - build
 
+- name: Disable unshipped Canonical certs (inherited from Ubuntu .config)
+  ansible.builtin.shell: |
+    scripts/config --file .config --set-str SYSTEM_TRUSTED_KEYS ""
+    scripts/config --file .config --set-str SYSTEM_REVOCATION_KEYS ""
+  args:
+    chdir: "{{ kvm_nyx_root }}"
+  when: not ansible_check_mode
+  tags:
+    - build
+
 - name: Build full KVM-Nyx kernel
   ansible.builtin.shell: make -j$(nproc)
   args:
